@@ -2,7 +2,7 @@ namespace Hanpari.FileMonitor;
 
 public abstract record Status
 {
-    static readonly double ALLOWED_DELTA_MILLISECONDS = 1;
+    static readonly double ALLOWED_DELTA_MILLISECONDS = 500;
     private DateTime _moment;
 
     public required DateTime Moment

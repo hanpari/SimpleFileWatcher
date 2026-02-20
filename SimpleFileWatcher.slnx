@@ -1,3 +1,5 @@
 <Solution>
-  <Project Path="SFWConsole/SFWConsole.csproj" />
+  <Project Path="FileWatcherConsole/FileWatcherConsole.csproj" />
+  <Project Path="FileWatcherLib/FileWatcherLib.csproj" />
+  <Project Path="FileWatcherTests/FileWatcherTests.csproj" />
 </Solution>
