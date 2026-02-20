@@ -1,60 +1,31 @@
-using static System.Console;
+namespace Hanpari.FileMonitor;
 
-public class FileChangeMonitor
+public class FileMonitor
 {
-    public required FileInfo fileInfo { get; init; }
-    private DateTime lastWriteTime;
+    public FileInfo MonitoredFile { get; private set; }
+    private Status lastStatus;
 
-    private bool isMonitoringOn = false;
-    private PeriodicTimer timer = new PeriodicTimer(TimeSpan.FromSeconds(5));
-    private FileChangeMonitor()
+    public FileMonitor(string path)
     {
-
+        MonitoredFile = new FileInfo(path);
+        lastStatus = new Status.StatusInitiator() { Moment = DateTime.UtcNow };
     }
 
-    public async Task StartAsync(long seconds = 0)
+    public static FileMonitor? CreateOnlyForExistingFile(string path)
     {
-        WriteLine($"Monitor {fileInfo}");
-        lastWriteTime = fileInfo.LastWriteTimeUtc;
-        timer = seconds is 0 ? timer : new PeriodicTimer(TimeSpan.FromSeconds(seconds));
-        await MonitorAsync(true);
+        return File.Exists(path) ? new FileMonitor(path) : null;
     }
 
-    private async Task MonitorAsync(bool On)
+    public Status? getChangedStatus()
     {
-        while (On && await timer.WaitForNextTickAsync())
-        {
-            WriteLine(WasFileChanged());
-        }
+        MonitoredFile.Refresh();
+        var newStatus = lastStatus.Refresh(MonitoredFile);
+        return newStatus == lastStatus ? null : StoreStatusAndGetIt(newStatus);
     }
 
-    public bool WasFileChanged()
+    Status StoreStatusAndGetIt(Status status)
     {
-        fileInfo.Refresh();
-        if (!fileInfo.Exists)
-        {
-            StopAsync();
-            return true;
-        }
-        if (lastWriteTime == fileInfo.LastWriteTimeUtc) return false;
-        lastWriteTime = fileInfo.LastWriteTime;
-        return true;
-    }
-
-    public async void StopAsync()
-    {
-        await MonitorAsync(false);
-        WriteLine($"Monitoring stopped for {fileInfo}");
-    }
-
-    public static FileChangeMonitor? Create(string path)
-    {
-        var fi = new FileInfo(path);
-        if (fi.Exists)
-        {
-            var se = new FileChangeMonitor() { fileInfo = new FileInfo(path) };
-            return se;
-        }
-        return null;
+        lastStatus = status;
+        return status;
     }
 }
