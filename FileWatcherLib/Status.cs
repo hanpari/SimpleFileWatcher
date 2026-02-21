@@ -26,8 +26,8 @@ public abstract record Status
 
     protected static bool AreMomentsEqual(DateTime oldMoment, DateTime newMoment)
     {
-        var difference = newMoment - oldMoment;
-        return difference.TotalMilliseconds < ALLOWED_DELTA_MILLISECONDS;
+        var difference = Math.Abs((newMoment - oldMoment).TotalMilliseconds);
+        return difference < ALLOWED_DELTA_MILLISECONDS;
     }
 
     public record StatusInitiator : Status
