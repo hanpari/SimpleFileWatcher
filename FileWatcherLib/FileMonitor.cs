@@ -1,19 +1,19 @@
 namespace Hanpari.FileMonitor;
 
-public class FileMonitor
+public class Monitor
 {
     public FileInfo MonitoredFile { get; private set; }
     private Status lastStatus;
 
-    public FileMonitor(string path)
+    public Monitor(string path)
     {
         MonitoredFile = new FileInfo(path);
         lastStatus = new Status.StatusInitiator() { Moment = DateTime.UtcNow };
     }
 
-    public static FileMonitor? CreateOnlyForExistingFile(string path)
+    public static Monitor? CreateOnlyForExistingFile(string path)
     {
-        return File.Exists(path) ? new FileMonitor(path) : null;
+        return File.Exists(path) ? new Monitor(path) : null;
     }
 
     public Status? getChangedStatus()

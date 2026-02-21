@@ -12,7 +12,7 @@ public class UnitTest1
 
         if (fileInfo.Exists) fileInfo.Delete();
 
-        FileMonitor fileMonitor = new(path);
+        Monitor fileMonitor = new(path);
 
         Assert.IsType<Status.MonitorStarted>(fileMonitor.getChangedStatus());
 
