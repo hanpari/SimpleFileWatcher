@@ -1,6 +1,6 @@
 ﻿namespace FileWatcherTests;
 
-using Hanpari.FileMonitor;
+using Hanpari.Monitor;
 
 public class UnitTest1
 {

@@ -1,4 +1,4 @@
-namespace Hanpari.FileMonitor;
+namespace Hanpari.Monitor;
 
 public class Monitor
 {
