@@ -14,20 +14,20 @@ public class UnitTest1
 
         Monitor fileMonitor = new(path);
 
-        Assert.IsType<Status.MonitorStarted>(fileMonitor.getChangedStatus());
+        Assert.IsType<Status.MonitorStarted>(fileMonitor.GetChangedStatus());
 
-        Assert.IsType<Status.NotCreatedYet>(fileMonitor.getChangedStatus());
+        Assert.IsType<Status.NotCreatedYet>(fileMonitor.GetChangedStatus());
 
-        Assert.Null(fileMonitor.getChangedStatus());
-        Assert.Null(fileMonitor.getChangedStatus());
+        Assert.Null(fileMonitor.GetChangedStatus());
+        Assert.Null(fileMonitor.GetChangedStatus());
 
         using (fileInfo.Create()) { }
         ;
 
-        Assert.IsType<Status.Created>(fileMonitor.getChangedStatus());
+        Assert.IsType<Status.Created>(fileMonitor.GetChangedStatus());
 
-        Assert.Null(fileMonitor.getChangedStatus());
-        Assert.Null(fileMonitor.getChangedStatus());
+        Assert.Null(fileMonitor.GetChangedStatus());
+        Assert.Null(fileMonitor.GetChangedStatus());
 
         Thread.Sleep(1000);
 
@@ -37,9 +37,9 @@ public class UnitTest1
         }
         ;
 
-        Assert.IsType<Status.LastWritten>(fileMonitor.getChangedStatus());
+        Assert.IsType<Status.LastWritten>(fileMonitor.GetChangedStatus());
 
-        Assert.Null(fileMonitor.getChangedStatus());
-        Assert.Null(fileMonitor.getChangedStatus());
+        Assert.Null(fileMonitor.GetChangedStatus());
+        Assert.Null(fileMonitor.GetChangedStatus());
     }
 }
