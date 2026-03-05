@@ -2,7 +2,7 @@ namespace Hanpari.Monitor;
 
 public abstract record Status
 {
-    static readonly double ALLOWED_DELTA_MILLISECONDS = 500;
+    static readonly TimeSpan ALLOWED_DELTA_MILLISECONDS = TimeSpan.FromMilliseconds(500);
     private DateTime _moment;
 
     public required DateTime Moment
@@ -24,11 +24,11 @@ public abstract record Status
         return AreMomentsEqual(Moment, newMoment);
     }
 
-    protected static bool AreMomentsEqual(DateTime oldMoment, DateTime newMoment)
-    {
-        var difference = Math.Abs((newMoment - oldMoment).TotalMilliseconds);
-        return difference < ALLOWED_DELTA_MILLISECONDS;
-    }
+    protected static bool AreMomentsEqual(
+            DateTime oldMoment,
+            DateTime newMoment
+            ) =>
+                (newMoment - oldMoment).Duration() < ALLOWED_DELTA_MILLISECONDS;
 
     public record StatusInitiator : Status
     {
